@@ -1,0 +1,61 @@
+<div class="container-page">
+    <div class="title">Quản lý lương theo tháng</div>
+    <div class="action">
+        <div class="btn" (click)="export()">Export</div>
+        <div></div>
+        <div class="search">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+                <nz-form-item class="input-search">
+                    <nz-form-control>
+                        <input id="note" type="text" nz-input formControlName="searchCtrl" placeholder="Tìm kiếm" />
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+
+
+    </div>
+    <div class="table">
+        <nz-table #fixedTable [nzData]="listOfData" [nzScroll]="{ x: '1150px', y: '330px' }" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th nzWidth="80px" nzLeft>STT</th>
+                    <th nzWidth="140px" nzLeft>Mã nhân viên</th>
+                    <th nzWidth="160px">Tên nhân viên</th>
+                    <th nzWidth="120px">Mức lương</th>
+                    <th nzWidth="120px">Ngày công</th>
+                    <th nzWidth="100px">Thưởng</th>
+                    <th nzWidth="100px">Phạt</th>
+                    <th nzWidth="100px">Tạm ứng</th>
+                    <th nzWidth="100px">Thực nhận</th>
+                    <th nzWidth="100px">Tháng</th>
+                    <th nzWidth="80px" nzRight>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of fixedTable.data; index as i">
+                    <td nzWidth="80px" nzLeft>{{ i+1 + (currentPage-1)*10}}</td>
+                    <td nzLeft nzWidth="140px">{{ data.userCode + (i+1 + (currentPage-1)*10) }}</td>
+                    <td nzWidth="160px">{{ data.userName }}</td>
+                    <td nzWidth="120px">{{ formatCurrency(data.salary) }}</td>
+                    <td nzWidth="120px">{{ data.workDay }}</td>
+                    <td nzWidth="100px">{{ formatCurrency(data.bonus) }}</td>
+                    <td nzWidth="100px">{{ formatCurrency(data.punish) }}</td>
+                    <td nzWidth="100px">{{ formatCurrency(data.advance) }}</td>
+                    <td nzWidth="100px">{{ formatCurrency(data.actuallyReceived) }}</td>
+                    <td nzWidth="100px">{{ getCurrentMonth() }}</td>
+                    <td nzWidth="80px" nzRight style="text-align: center;">
+                        <span nz-icon class="icon-view" nzType="eye" nzTheme="outline" title="Xem chi tiết"
+                            (click)="openModalUpdate()"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <div class="paging">
+            <nz-pagination [(nzPageIndex)]="currentPage" [nzTotal]="total" [nzSize]="'small'"
+                [nzShowTotal]="totalTemplate" (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+        </div>
+        <ng-template #totalTemplate let-total>Tổng số: {{ total }} bản ghi</ng-template>
+
+    </div>
+</div>

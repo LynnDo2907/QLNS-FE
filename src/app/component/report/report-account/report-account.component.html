@@ -1,0 +1,40 @@
+<div class="container-page">
+    <div class="title">Báo cáo danh sách tài khoản</div>
+    <div class="action">
+        <div></div>
+        <div class="search">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+                <nz-form-item class="input-search">
+                    <nz-form-control>
+                        <input id="note" type="text" nz-input formControlName="search" placeholder="Tìm kiếm" />
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+    </div>
+    <div class="table">
+        <nz-table #fixedTable [nzData]="listOfData" [nzScroll]="{ x: '1150px', y: '330px' }" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th nzWidth="80px" nzLeft>STT</th>
+                    <th nzWidth="140px" nzLeft>Tên</th>
+                    <th nzWidth="160px">Email</th>
+                    <th nzWidth="100px">Chức vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of fixedTable.data; index as i">
+                    <td nzWidth="80px" nzLeft>{{ i }}</td>
+                    <td nzLeft nzWidth="160px">{{ data.name }}</td>
+                    <td nzWidth="140px">{{ data.email }}</td>
+                    <td nzWidth="100px">{{ data.positionView }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <div class="paging">
+            <nz-pagination [(nzPageIndex)]="currentPage" [nzTotal]="total" [nzSize]="'small'"
+                [nzShowTotal]="totalTemplate" (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+        </div>
+    </div>
+    <ng-template #totalTemplate let-total>Tổng số: {{ total }} bản ghi</ng-template>
+</div>
